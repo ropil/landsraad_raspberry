@@ -1,0 +1,4 @@
+---
+default_user: 'alarm'
+default_user_password: 'alarm'
+root_default_password: 'root'
