@@ -1,0 +1,24 @@
+---
+ - hosts: all
+   gather_facts: no
+   user: "{{ default_user }}"
+   become: true
+   become_method: su
+   tasks:
+     - name: Init pacman keys (once)
+       raw: /usr/bin/pacman-key -l || /usr/bin/pacman-key --init
+     - name: Populate pacman keys (once)
+       raw: /usr/bin/pacman-key -l Jason Plum || /usr/bin/pacman-key --populate archlinuxarm
+     - name: Raw system upgrade (always)
+       raw: /usr/bin/pacman --noconfirm -Syu
+     - name: Install python (once)
+       raw: /usr/bin/pacman -Qi python || /usr/bin/pacman --noconfirm -S python
+     - name: Install minimal packages
+       pacman:
+         name:
+           - sudo
+         state: present
+     - name: Add wheel group to sudoers
+       copy:
+         dest: "/etc/sudoers"
+         content: "%wheel  ALL=(ALL)  NOPASSWD: ALL"
