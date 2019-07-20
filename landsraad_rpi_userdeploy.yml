@@ -1,0 +1,24 @@
+---
+ - hosts: all
+   gather_facts: no
+   user: "{{ default_user }}"
+   become: true
+   tasks:
+     - name: Load variables dependent on hostname
+       include_vars: "{{ lookup('first_found', possible_files) }}"
+       vars:
+         possible_files:
+           - "landsraad_variables_{{ ansible_host }}.yml"
+           - landsraad_variables.yml
+     - name: Add default cluster user
+       user:
+         name: "{{ cluster_user }}"
+         group: "{{ cluster_user }}"
+         groups: wheel
+         shell: /bin/bash
+         password: "{{ cluster_password }}"
+     - name: Deploy SSH key
+       authorized_key:
+          user: "{{ cluster_user }}"
+          state: present
+          key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa_landsraad.pub') }}"
