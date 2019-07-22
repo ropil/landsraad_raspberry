@@ -6,7 +6,7 @@ Raspberry playbooks, scriplets and mementos for setting up a productivity cluste
 ### `landsraad_rpi_ansibledeploy.yml`
 Ansible playbook with initial deployment of python and sudo on fresh raspberry ArchlinuxARM install, from upstream `.tgz`. Requires default user login credentials, such as `archarm_variables.yml`.
 
-Sample execution;
+#### Sample playbook execution
 
 ```sh
 ansible-playbook -i archarm_hosts --extra-vars '@archarm_variables.yml' landsraad_rpi_ansibledeploy.yml
@@ -30,8 +30,23 @@ A keyfile must be generated and stored in a file recognized by the playbook, whi
 ssh-keygen -t rsa -b 4096 -C "$(whoami)@$(hostname)-$(date -I)"
 ```
 
-Sample playbook execution;
+#### Sample playbook execution
 
 ```sh
 ansible-playbook -i archarm_hosts --extra-vars '@archarm_variables.yml' landsraad_rpi_userdeploy.yml
+```
+
+### `landsraad_rpi_userdel.yml`
+Remove default user and update root password to custom host/cluster password.
+
+Default ArchARM and custom cluster variables are stored in `archarm_variables.yml` and `landsraad_variables.yml` respectively. Custom host specific variables are in `landsraad_variables_<host>.yml`, if needed. Passwords needs to be encrypted when stored in `_variables*.yml` files, see `landsraad_rpi_userdeploy.yml` use case above.
+
+A cluster hosts file is needed since `ansible_user` has changed after a new user has been deployed; this cluster inventory file is `landsraad_hosts`, which needs to be edited appropriately.
+
+If host specific cluster user names are used, one can load the `landsraad_variables_<host>.yml` file with `--extra-vars`, and execute on each host separately using a for loop or similar.
+
+#### Sample playbook execution
+
+```sh
+ansible-playbook -i landsraad_hosts --extra-vars '@landsraad_variables.yml' landsraad_rpi_userdel.yml
 ```
