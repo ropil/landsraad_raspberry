@@ -9,13 +9,13 @@ Ansible playbook with initial deployment of python and sudo on fresh raspberry A
 Sample execution;
 
 ```sh
-ansible-playbook -i hosts --extra-vars '@archarm_variables.yml' landsraad_rpi_ansibledeploy.yml
+ansible-playbook -i archarm_hosts --extra-vars '@archarm_variables.yml' landsraad_rpi_ansibledeploy.yml
 ```
 
 ### `landsraad_rpi_userdeploy.yml`
 Setup default user for cluster orchestration, with ssh key authentication. Parameters needs to be edited, adding encrypted password, and creating cluster ssh key files.
 
-Cluster specific parameters are set in `landsraad_variables.yml` (default) and `landsraad_variables_<host>.yml` (host specific). Host specific files are named with `<host>` being the same corresponding identifier in the `hosts` inventory file. ArchlinuxARM default parameters are in `archarm_variables.yml`.
+Cluster specific parameters are set in `landsraad_variables.yml` (default) and `landsraad_variables_<host>.yml` (host specific). Host specific files are named with `<host>` being the same corresponding identifier in the `archarm_hosts` inventory file. ArchlinuxARM default parameters are in `archarm_variables.yml`.
 
 Passwords are encrypted best using `python-passlib` on the configuring host, which are then edited into and saved as `devops_password`, in the default or host specific variable files;
 
@@ -33,5 +33,5 @@ ssh-keygen -t rsa -b 4096 -C "$(whoami)@$(hostname)-$(date -I)"
 Sample playbook execution;
 
 ```sh
-ansible-playbook -i hosts --extra-vars '@archarm_variables.yml' landsraad_rpi_userdeploy.yml
+ansible-playbook -i archarm_hosts --extra-vars '@archarm_variables.yml' landsraad_rpi_userdeploy.yml
 ```
