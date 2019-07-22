@@ -1,0 +1,31 @@
+---
+ - hosts: all
+   gather_facts: no
+   user: "{{ cluster_user }}"
+   become: true
+   tasks:
+     - name: Load archarm variables (default_user)
+       include_vars:
+          file: archarm_variables.yml
+     - name: Load variables dependent on hostname
+       include_vars: "{{ lookup('first_found', possible_files) }} name=landsraad"
+       vars:
+         possible_files:
+           - "landsraad_variables_{{ ansible_host }}.yml"
+           - landsraad_variables.yml
+     - name: Get default user processes
+       shell: "ps -eo pid,user | grep {{ default_user }} | awk '{print $1}'"
+       register: processes
+     - name: Kill default user processes
+       shell: "if [ `ps -eo pid | grep ^[[:space:]]*{{ item }} | wc -l` -gt 0 ]; then kill -9 {{ item }}; fi;"
+       when: processes.stdout
+       loop: "{{ processes.stdout_lines }}"
+     - name: Remove the default user
+       user:
+         name: "{{ default_user }}"
+         state: absent
+         remove: yes
+     - name: Update root password
+       user:
+         name: root
+         password: "{{ landsraad.cluster_root_password }}"

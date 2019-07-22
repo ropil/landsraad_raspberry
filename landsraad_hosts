@@ -1,0 +1,7 @@
+[cluster:vars]
+ansible_user = "{{ cluster_user }}"
+ 
+[cluster]
+alpha
+beta
+gamma
