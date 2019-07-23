@@ -11,7 +11,7 @@
        include_vars: "{{ lookup('first_found', possible_files) }} name=landsraad"
        vars:
          possible_files:
-           - "landsraad_variables_{{ ansible_host }}.yml"
+           - "landsraad_variables_{{ inventory_hostname_short }}.yml"
            - landsraad_variables.yml
      - name: Get default user processes
        shell: "ps -eo pid,user | grep {{ default_user }} | awk '{print $1}'"

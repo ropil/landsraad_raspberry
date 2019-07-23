@@ -1,0 +1,29 @@
+---
+ - hosts: all
+   gather_facts: yes
+   become: true
+   tasks:
+     - name: Disable Root Login
+       lineinfile:
+         dest: /etc/ssh/sshd_config
+         regexp: '^PermitRootLogin'
+         line: "PermitRootLogin no"
+         state: present
+         backup: yes
+     - name: disable sshd.service
+       systemd:
+         name: sshd.service
+         enabled: no
+     - name: enable sshd.socket
+       systemd:
+         name: sshd.socket
+         enabled: yes
+     - name: set hostname
+       hostname:
+         name: "{{ inventory_hostname_short }}"
+     - name: "Build hosts file"
+       lineinfile: dest=/etc/hosts regexp='.*{{ hostvars[item].inventory_hostname_short }}$' line="{{ hostvars[item].ansible_host }} {{ hostvars[item].inventory_hostname }} {{ hostvars[item].inventory_hostname_short }}" state=present
+       when: hostvars[item].ansible_host is defined
+       with_items: "{{ groups['all'] }}"
+     - name: reboot system
+       reboot:

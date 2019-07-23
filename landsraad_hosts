@@ -2,6 +2,6 @@
 ansible_user = "{{ cluster_user }}"
  
 [cluster]
-alpha
-beta
-gamma
+alpha.mydomain.org ansible_host=192.168.0.11
+beta.mydomain.org ansible_host=192.168.0.12
+gamma.mydomain.org ansible_host=192.168.0.13
