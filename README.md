@@ -50,3 +50,14 @@ If host specific cluster user names are used, one can load the `landsraad_variab
 ```sh
 ansible-playbook -i landsraad_hosts --extra-vars '@landsraad_variables.yml' landsraad_rpi_userdel.yml
 ```
+
+### `landsraad_rpi_network.yml`
+Update sshd, hostname(s) and reboot system; Set no root login in `sshd_conf`, disable `.service` and enable `.socket`, set hostname and build `/etc/hosts` according to inventory file.
+
+In this case the `landsraad_hosts` inventory file defines the FQDN and IP of the hosts in the cluster, and therefore the inventory is used to build the `/etc/hosts` files.
+
+#### Sample playbook execution
+
+```sh
+ansible-playbook -i landsraad_hosts --extra-vars '@landsraad_variables.yml' landsraad_rpi_network.yml;
+```
