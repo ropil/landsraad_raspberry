@@ -10,6 +10,10 @@
          possible_files:
            - "landsraad_variables_{{ inventory_hostname_short }}.yml"
            - landsraad_variables.yml
+     - name: Add default cluster usergroup
+       group:
+         name: "{{ cluster_user }}"
+         state: present
      - name: Add default cluster user
        user:
          name: "{{ cluster_user }}"
