@@ -61,3 +61,10 @@ In this case the `landsraad_hosts` inventory file defines the FQDN and IP of the
 ```sh
 ansible-playbook -i landsraad_hosts --extra-vars '@landsraad_variables.yml' landsraad_rpi_network.yml;
 ```
+
+## Pinging
+After successfully running the above playbooks, in order, you should be able to ping all hosts with the following command;
+
+```sh
+ansible -i landsraad_hosts --extra-vars '@landsraad_variables.yml' all -m ping;
+```
