@@ -1,0 +1,27 @@
+---
+ - hosts: all
+   gather_facts: yes
+   become: true
+   tasks:
+     - name: Install ntpd package
+       pacman:
+         name:
+           - ntp
+         state: present
+     - name: Add Swedish ntpd servers
+       lineinfile:
+         dest: /etc/ntp.conf
+         regexp: '^server {{ item }}'
+         line: "server {{ item }}.se.pool.ntp.org"
+         state: present
+         backup: yes
+       with_items:
+         - 0
+         - 1
+         - 2
+         - 3
+     - name: Enable ntpd
+       systemd:
+         name: ntpd.service
+         enabled: yes
+         state: started
