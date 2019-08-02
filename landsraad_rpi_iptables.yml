@@ -1,0 +1,55 @@
+---
+ - hosts: all
+   gather_facts: yes
+   become: true
+   tasks:
+     - name: Load variables dependent on hostname
+       include_vars: "{{ lookup('first_found', possible_files) }} name=landsraad"
+       vars:
+         possible_files:
+           - "landsraad_variables_{{ inventory_hostname_short }}.yml"
+           - landsraad_variables.yml
+     - name: Install iptables package
+       pacman:
+         name:
+           - iptables
+         state: present
+     - name: Flush firewall
+       iptables:
+         chain: "{{ item }}"
+         flush: yes
+       with_items:  [ 'INPUT', 'FORWARD', 'OUTPUT' ]
+     - name: Allow related and established connections
+       iptables:
+         chain: INPUT
+         ctstate: ESTABLISHED,RELATED
+         jump: ACCEPT
+         state: present
+     - name: Configure firewall for glusterfs
+       iptables:
+         chain: INPUT
+         protocol: tcp
+         destination_port: "{{ item }}"
+         ctstate: NEW
+         jump: ACCEPT
+         state: present
+       loop: "{{ landsraad.allowed_tcp_ports }}"
+     - name: Configure firewall to drop all other
+       iptables:
+         chain: INPUT
+         jump: DROP
+         state: present
+     - name: Check firewall configuration in memory
+       command: iptables-save
+       register: fw_memory
+     - name: Check firewall configuration on file
+       command: cat /etc/iptables/iptables.rules
+       register: fw_file
+     - name: Update firewall configuration file
+       shell: iptables-save > /etc/iptables/iptables.rules
+       when: fw_memory != fw_file
+     - name: Enable firewall
+       systemd:
+         name: iptables.service
+         enabled: yes
+         state: started

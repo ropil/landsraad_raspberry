@@ -71,6 +71,17 @@ Install NTPD, configure for Swedish servers and start service.
 ansible-playbook -i landsraad_hosts --extra-vars '@landsraad_variables.yml' landsraad_rpi_ntp.yml;
 ```
 
+### `landsraad_rpi_iptables.yml`
+Install, configure and start iptables to support GlusterFS.
+
+This playbook is **not idempotent**, as it will clear all firewall tables, set a number of rules and then *always* write it out to `/etc/iptables/iptables.rules`. Future goldplating might include templates and other stuff to make it more ansi(sensi)ble.
+
+#### Sample playbook execution
+
+```sh
+ansible-playbook -i landsraad_hosts --extra-vars '@landsraad_variables.yml' landsraad_rpi_iptables.yml;
+```
+
 ## Pinging
 After successfully running the above playbooks, in order, you should be able to ping all hosts with the following command;
 

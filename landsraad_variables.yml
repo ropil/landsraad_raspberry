@@ -2,3 +2,9 @@
 cluster_user: 'defclu'
 cluster_password: 'DEFAULT-ENCRYPTED-PASSWORD---SEE-README.md'
 cluster_root_password: 'DEFAULT-ROOT-ENCRYPTED-PASSWORD---SEE-README.md'
+allowed_tcp_ports:
+  - '22'
+  - '111'
+  - '24007:24011'
+  - '38465:38469'
+  - '49150:49159'
