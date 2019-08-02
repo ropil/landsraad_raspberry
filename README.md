@@ -2,24 +2,26 @@
 Raspberry playbooks, scriplets and mementos for setting up a productivity cluster.
 
 ## Protocol
-This project is an example on how to install and manage the bare metal of a commodity hardware cluster. These playbooks constitute a working protocol (also as in WIP) for deploying an experimental productivity cluster on raspberry hardware - an example approach to handling the bare metal of your own cloud, if you like. As such, the following list defines the sequence in which you could apply my experiment to your own hardware, at your own risk and perils;
+This project is an example on how to install and manage the bare metal of a commodity hardware cluster.
+
+These playbooks constitute a working protocol (also as in WIP) for deploying an experimental productivity cluster on raspberry hardware - an example approach to handling the bare metal of your own cloud, if you like. As such, the following list defines the sequence in which you could apply my experiment to your own hardware, at your own risk and perils;
 
 0. **Procure** corresponding hardware *(to be published)*
 1. **Flash** bare metal controlling OS to flash memories *(to be published)*
 2. **Plug** in everything and fire up the cluster
 3. **Configure** playbook variables
-  1. Edit `archarm_variables.yml`
-  2. Edit `archarm_hosts`
-  3. Edit `landsraad_variables.yml` (you can remove `_alpha.yml`, if you don't require special settings for separate nodes)
-  4. Edit `landsraad_hosts`
+   1. Edit `archarm_variables.yml`
+   2. Edit `archarm_hosts`
+   3. Edit `landsraad_variables.yml` (you can remove `_alpha.yml`, if you don't require special settings for separate nodes)
+   4. Edit `landsraad_hosts`
 4. **Generate** key(s) as described below
 5. **Run** playbooks, in order
-  1. `landsraad_rpi_ansibledeploy.yml`
-  2. `landsraad_rpi_userdeploy.yml`
-  3. `landsraad_rpi_userdel.yml`
-  4. `landsraad_rpi_network.yml`
-  5. `landsraad_rpi_ntp.yml`
-  6. `landsraad_rpi_iptables.yml`
+   1. `landsraad_rpi_ansibledeploy.yml`
+   2. `landsraad_rpi_userdeploy.yml`
+   3. `landsraad_rpi_userdel.yml`
+   4. `landsraad_rpi_network.yml`
+   5. `landsraad_rpi_ntp.yml`
+   6. `landsraad_rpi_iptables.yml`
 
 ## Use case(s)
 
