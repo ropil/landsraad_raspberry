@@ -7,7 +7,8 @@ This project is an example on how to install and manage the bare metal of a comm
 These playbooks constitute a working protocol (also as in WIP) for deploying an experimental productivity cluster on raspberry hardware - an example approach to handling the bare metal of your own cloud, if you like. As such, the following list defines the sequence in which you could apply my experiment to your own hardware, at your own risk and perils;
 
 0. **Procure** corresponding hardware *(to be published)*
-1. **Flash** bare metal controlling OS to flash memories *(to be published)*
+1. **Flash** bare metal controlling OS to flash memories
+   1. Perhaps (NOT) using `landsraad_rpi_webflash.sh` (See below, you have been warned)
 2. **Plug** in everything and fire up the cluster
 3. **Configure** playbook variables
    1. Edit `archarm_variables.yml`
@@ -24,6 +25,19 @@ These playbooks constitute a working protocol (also as in WIP) for deploying an 
    6. `landsraad_rpi_iptables.yml`
 
 ## Use case(s)
+
+### `landsraad_rpi_webflash.sh`
+Download, verify OS and flash memorcard, all in one go. Takes the device path, i.e. not a partition, as argument.
+
+**WARNING! DO NOT USE THIS SCRIPT IF YOU HAVE NOT FULLY UNDERSTOOD WHAT IT DOES!**
+
+If you run this script, with only 1 letter wrong, you could **ruin all data on your main harddrive**. Must be ran as superuser.
+
+#### Sample execution
+
+```sh
+./landsraad_rpi_webflash.sh /dev/<DEVICE>
+```
 
 ### `landsraad_rpi_ansibledeploy.yml`
 Ansible playbook **bootstrapping** ansible requirements, such as python and sudo, on fresh raspberry ArchlinuxARM install, from upstream `.tgz`. Requires default user login credentials, such as `archarm_variables.yml`.
