@@ -4,7 +4,7 @@ Raspberry playbooks, scriplets and mementos for setting up a productivity cluste
 ## Protocol
 This project is an example on how to install and manage the bare metal of a commodity hardware cluster.
 
-These playbooks constitute a working protocol (also as in WIP) for deploying an experimental productivity cluster on raspberry hardware - an example approach to handling the bare metal of your own cloud, if you like. As such, the following list defines the sequence in which you could apply my experiment to your own hardware, at your own risk and perils;
+These playbooks constitute a working protocol (also as in WIP) for deploying an experimental productivity cluster on raspberry hardware - an example approach to handling the bare metal of your own cloud, if you like. As such, the following list defines the sequence in which you could apply my experiment to your own hardware, at your own risk and peril;
 
 0. **Procure** corresponding hardware *(to be published)*
 1. **Flash** bare metal controlling OS to flash memories
@@ -84,7 +84,7 @@ If host specific cluster user names are used, one can load the `landsraad_variab
 #### Sample playbook execution
 
 ```sh
-ansible-playbook -i landsraad_hosts --extra-vars '@landsraad_variables.yml' landsraad_rpi_userdel.yml
+ansible-playbook -i landsraad_hosts --extra-vars '@landsraad_variables.yml' landsraad_rpi_userdel.yml;
 ```
 
 ### `landsraad_rpi_network.yml`
